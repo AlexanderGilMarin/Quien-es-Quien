@@ -1,3 +1,5 @@
+import random
+#from Quien_es_Quien import personajes
 personajes = {
     "Susan": {
         "nombre": "Susan",
@@ -120,3 +122,9 @@ personajes = {
         "imagen": "Peter.png",
     },
 }
+
+
+def escoger_personaje(personajes):
+    personaje_oculto = random.choice(list(personajes.keys()))
+    return personaje_oculto
+print(escoger_personaje(personajes))
