@@ -1,43 +1,61 @@
-import pygame
-import reflex
+import reflex as rx
 
-# Inicializamos Pygame
-pygame.init()
 
-# Configuración de la ventana
-screen_width, screen_height = 800, 600
-screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption("Tablero ¿Quién es quién?")
-
-# Lista de personajes con sus nombres (sin las características por ahora)
 personajes = [
-    "Susan", "Claire", "David", "Anne", "Robert", "Anita", "Joe", "George", 
-    "Bill", "Alfred", "Max", "Tom", "Alex", "Sam", "Richard", "Paul", "Maria", 
-    "Frans", "Herman", "Bernard", "Philip", "Eric", "Charles", "Peter"
+    {"nombre": "Susan", "imagen": "Susan.png"},
+    {"nombre": "Claire", "imagen": "Claire.png"},
+    {"nombre": "David", "imagen": "David.png"},
+    {"nombre": "Anne", "imagen": "Anne.png"},
+    {"nombre": "Robert", "imagen": "Robert.png"},
+    {"nombre": "Anita", "imagen": "Anita.png"},
+    {"nombre": "Joe", "imagen": "Joe.png"},
+    {"nombre": "George", "imagen": "George.png"},
+    {"nombre": "Bill", "imagen": "Bill.png"},
+    {"nombre": "Alfred", "imagen": "Alfred.png"},
+    {"nombre": "Max", "imagen": "Max.png"},
+    {"nombre": "Tom", "imagen": "Tom.png"},
+    {"nombre": "Alex", "imagen": "Alex.png"},
+    {"nombre": "Sam", "imagen": "Sam.png"},
+    {"nombre": "Richard", "imagen": "Richard.png"},
+    {"nombre": "Paul", "imagen": "Paul.png"},
+    {"nombre": "Maria", "imagen": "Maria.png"},
+    {"nombre": "Frans", "imagen": "Frans.png"},
+    {"nombre": "Herman", "imagen": "Herman.png"},
+    {"nombre": "Bernard", "imagen": "Bernard.png"},
+    {"nombre": "Philip", "imagen": "Philip.png"},
+    {"nombre": "Eric", "imagen": "Eric.png"},
+    {"nombre": "Charles", "imagen": "Charles.png"},
+    {"nombre": "Peter", "imagen": "Peter.png"},
 ]
 
-# Clase del juego
-class Juego(reflex.Game):
-    def __init__(self):
-        super().__init__()
-        self.personajes_restantes = personajes
 
-    def dibujar_tablero(self):
-        # Dibujar todos los personajes en el tablero
-        font = pygame.font.SysFont("Arial", 24)
-        x, y = 20, 50
-        for personaje in self.personajes_restantes:
-            text = font.render(personaje, True, (255, 255, 255))  # Texto en blanco
-            screen.blit(text, (x, y))
-            y += 40  # Espacio entre personajes
+def tablero():
+    filas = []
+    
+    for i in range(0, len(personajes), 6):
+        fila = rx.hstack(
+            [
+                rx.box(
+                    rx.image(src=personaje["imagen"], alt=personaje["nombre"], width="150px", height="150px"),  # Tamaño más grande
+                    rx.text(personaje["nombre"], font_size="14px", color="black"),
+                    bg="lightblue",
+                    p="10px",
+                    m="5px",
+                    border_radius="8px",
+                    text_align="center",
+                )
+                for personaje in personajes[i:i + 6]
+            ],
+            spacing="3", 
+        )
+        filas.append(fila)
 
-    def actualizar(self):
-        # Limpiar la pantalla
-        screen.fill((0, 0, 0))  # Fondo negro
-        self.dibujar_tablero()  # Dibujar el tablero con los personajes
-        pygame.display.update()  # Actualizar la pantalla
+    return rx.center(
+        rx.vstack(*filas, spacing="3"),  
+        padding="20px",
+    )
 
-# Ejecutar el juego
-if __name__ == "__main__":
-    juego = Juego()
-    juego.run()  # Inicia el ciclo del juego
+
+app = rx.App()
+app.add_page(tablero, route="/", title="Tablero ¿Quién es quién?")
+app._compile()

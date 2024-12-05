@@ -7,7 +7,7 @@ personajes = {
     "Anita": {"nombre": "Anita", "características": ["Pelo", "Ojos Azules", "Coloretes", "Mujer", "Rubio"]},
     "Joe": {"nombre": "Joe", "características": ["Pelo", "Ojos Marrones", "Gafas", "Hombre", "Rubio"]},
     "George": {"nombre": "George", "características": ["Pelo", "Sombrero", "Ojos Marrones", "Hombre", "Pelo Blanco"]},
-    "Bill": {"nombre": "Bill", "características": ["Calvo", "Ojos Marrones", "Coloretes", "Barba", "Hombre"]},
+    "Bill": {"nombre": "Bill","características": ["Calvo", "Ojos Marrones", "Coloretes", "Barba", "Hombre"]},
     "Alfred": {"nombre": "Alfred", "características": ["Pelo", "Ojos Azules", "Bigote", "Hombre", "Pelo Naranja"]},
     "Max": {"nombre": "Max", "características": ["Pelo", "Ojos Marrones", "Bigote", "Hombre", "Pelo Marrón"]},
     "Tom": {"nombre": "Tom", "características": ["Calvo", "Ojos Azules", "Gafas", "Hombre"]},
