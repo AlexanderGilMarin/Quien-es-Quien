@@ -36,7 +36,7 @@ def tablero():
         fila = rx.hstack(
             [
                 rx.box(
-                    rx.image(src=personaje["imagen"], alt=personaje["nombre"], width="150px", height="150px"),  # Tamaño más grande
+                    rx.image(src=personaje["imagen"], alt=personaje["nombre"], width="150px", height="150px"),  
                     rx.text(personaje["nombre"], font_size="14px", color="black"),
                     bg="lightblue",
                     p="10px",
