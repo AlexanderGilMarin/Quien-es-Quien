@@ -141,7 +141,7 @@ def tablero():
                 rx.box(
                     rx.image(src=personaje["imagen"], alt=personaje["nombre"], width="150px", height="150px"),  
                     rx.text(personaje["nombre"], font_size="14px", color="black"),
-                    bg="lightblue",
+                    bg="LightGreen",
                     p="10px",
                     m="5px",
                     border_radius="8px",
