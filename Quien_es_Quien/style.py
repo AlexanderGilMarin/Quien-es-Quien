@@ -1,6 +1,6 @@
 
 class style:
-    # Estilo para el input (campo de texto)
+    
     input_style = {
         "width": "300px",
         "padding": "10px",
@@ -10,18 +10,18 @@ class style:
         "color": "#333"
     }
     
-    # Estilo para el botón
+    
     button_style = {
-        "backgroundColor": "#007bff",  # Color de fondo azul
-        "color": "white",  # Texto blanco
-        "padding": "10px 20px",  # Espaciado interno
-        "borderRadius": "5px",  # Bordes redondeados
-        "border": "none",  # Sin borde
-        "cursor": "pointer",  # Cursor como puntero
+        "backgroundColor": "#007bff",  
+        "color": "white",  
+        "padding": "10px 20px",  
+        "borderRadius": "5px",  
+        "border": "none",  
+        "cursor": "pointer",  
         "fontSize": "16px"
     }
 
-    # Estilo para otros elementos (ejemplo: texto o contenedores)
+    
     other_style = {
         "fontFamily": "Arial, sans-serif",
         "color": "#555",

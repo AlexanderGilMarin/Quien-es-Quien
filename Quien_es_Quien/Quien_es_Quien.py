@@ -3,7 +3,7 @@ import random
 from Quien_es_Quien.personaje_aleatorio import personajes
 
 
-# Estado del juego
+
 class GameState(rx.State):
     question: str = ""
     chat_history: list[tuple[str, str]] = []
@@ -12,7 +12,7 @@ class GameState(rx.State):
     @rx.event
     async def answer(self):
         question = self.question.lower()
-        self.question = ""  # Limpiar el campo de entrada
+        self.question = ""  
 
         respuesta = "No entiendo la pregunta."
         for característica in self.selected_character["características"]:
@@ -26,7 +26,7 @@ class GameState(rx.State):
 
         self.chat_history.append((question, respuesta))
 
-# Función para crear un bloque de pregunta-respuesta
+
 def qa(question: str, answer: str) -> rx.Component:
     return rx.vstack(
         rx.box(
@@ -46,7 +46,7 @@ def qa(question: str, answer: str) -> rx.Component:
         spacing="2",
     )
 
-# Función para mostrar el historial del chat
+
 def chat() -> rx.Component:
     return rx.box(
         rx.foreach(
@@ -56,7 +56,7 @@ def chat() -> rx.Component:
         padding="20px",
     )
 
-# Barra de acción para ingresar preguntas
+
 def action_bar() -> rx.Component:
     return rx.hstack(
         rx.input(
@@ -73,7 +73,7 @@ def action_bar() -> rx.Component:
         spacing="3",
     )
 
-# Función para mostrar el tablero con los personajes
+
 def tablero() -> rx.Component:
     personajes_lista = list(personajes.values())
 
@@ -106,7 +106,7 @@ def tablero() -> rx.Component:
         padding="20px",
     )
 
-# Página principal
+
 def index() -> rx.Component:
     return rx.center(
         rx.vstack(
@@ -119,7 +119,7 @@ def index() -> rx.Component:
         padding="20px",
     )
 
-# Inicialización de la aplicación
+
 app = rx.App()
 app.add_page(index, route="/", title="¿Quién es quién?")
 app._compile()
