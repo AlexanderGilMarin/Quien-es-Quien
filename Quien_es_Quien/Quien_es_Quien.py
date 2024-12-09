@@ -1,178 +1,125 @@
 import reflex as rx
 import random
-
-personajes = {
-    "Susan": {
-        "nombre": "Susan",
-        "características": ["Pelo", "Ojos Marrones", "Coloretes", "Mujer", "Pelo Blanco"],
-        "imagen": "Susan.png",  
-    },
-    "Claire": {
-        "nombre": "Claire",
-        "características": ["Pelo", "Sombrero", "Ojos Marrones", "Gafas", "Mujer", "Pelo Naranja"],
-        "imagen": "Claire.png",
-    },
-    "David": {
-        "nombre": "David",
-        "características": ["Pelo", "Ojos Marrones", "Barba", "Hombre", "Rubio"],
-        "imagen": "David.png",
-    },
-    "Anne": {
-        "nombre": "Anne",
-        "características": ["Pelo", "Ojos Marrones", "Pendientes", "Mujer", "Pelo Marrón"],
-        "imagen": "Anne.png",
-    },
-    "Robert": {
-        "nombre": "Robert",
-        "características": ["Pelo", "Ojos Azules", "Coloretes", "Hombre", "Pelo Marrón"],
-        "imagen": "Robert.png",
-    },
-    "Anita": {
-        "nombre": "Anita",
-        "características": ["Pelo", "Ojos Azules", "Coloretes", "Mujer", "Rubio"],
-        "imagen": "Anita.png",
-    },
-    "Joe": {
-        "nombre": "Joe",
-        "características": ["Pelo", "Ojos Marrones", "Gafas", "Hombre", "Rubio"],
-        "imagen": "Joe.png",
-    },
-    "George": {
-        "nombre": "George",
-        "características": ["Pelo", "Sombrero", "Ojos Marrones", "Hombre", "Pelo Blanco"],
-        "imagen": "George.png",
-    },
-    "Bill": {
-        "nombre": "Bill",
-        "características": ["Calvo", "Ojos Marrones", "Coloretes", "Barba", "Hombre"],
-        "imagen": "Bill.png",
-    },
-    "Alfred": {
-        "nombre": "Alfred",
-        "características": ["Pelo", "Ojos Azules", "Bigote", "Hombre", "Pelo Naranja"],
-        "imagen": "Alfred.png",
-    },
-    "Max": {
-        "nombre": "Max",
-        "características": ["Pelo", "Ojos Marrones", "Bigote", "Hombre", "Pelo Marrón"],
-        "imagen": "Max.png",
-    },
-    "Tom": {
-        "nombre": "Tom",
-        "características": ["Calvo", "Ojos Azules", "Gafas", "Hombre"],
-        "imagen": "Tom.png",
-    },
-    "Alex": {
-        "nombre": "Alex",
-        "características": ["Pelo", "Ojos Marrones", "Bigote", "Hombre", "Pelo Marrón"],
-        "imagen": "Alex.png",
-    },
-    "Sam": {
-        "nombre": "Sam",
-        "características": ["Calvo", "Ojos Marrones", "Gafas", "Hombre"],
-        "imagen": "Sam.png",
-    },
-    "Richard": {
-        "nombre": "Richard",
-        "características": ["Calvo", "Ojos Marrones", "Bigote", "Barba", "Hombre"],
-        "imagen": "Richard.png",
-    },
-    "Paul": {
-        "nombre": "Paul",
-        "características": ["Pelo", "Ojos Marrones", "Gafas", "Hombre", "Pelo Blanco"],
-        "imagen": "Paul.png",
-    },
-    "Maria": {
-        "nombre": "Maria",
-        "características": ["Pelo", "Sombrero", "Ojos Marrones", "Pendientes", "Mujer", "Pelo Marrón"],
-        "imagen": "Maria.png",
-    },
-    "Frans": {
-        "nombre": "Frans",
-        "características": ["Pelo", "Ojos Marrones", "Hombre", "Pelo Naranja"],
-        "imagen": "Frans.png",
-    },
-    "Herman": {
-        "nombre": "Herman",
-        "características": ["Calvo", "Ojos Marrones", "Hombre"],
-        "imagen": "Herman.png",
-    },
-    "Bernard": {
-        "nombre": "Bernard",
-        "características": ["Pelo", "Sombrero", "Ojos Marrones", "Hombre", "Pelo Marrón"],
-        "imagen": "Bernard.png",
-    },
-    "Philip": {
-        "nombre": "Philip",
-        "características": ["Pelo", "Ojos Marrones", "Coloretes", "Barba", "Hombre", "Pelo Marrón"],
-        "imagen": "Philip.png",
-    },
-    "Eric": {
-        "nombre": "Eric",
-        "características": ["Pelo", "Sombrero", "Ojos Marrones", "Hombre", "Pelo Rubio"],
-        "imagen": "Eric.png",
-    },
-    "Charles": {
-        "nombre": "Charles",
-        "características": ["Pelo", "Ojos Marrones", "Bigote", "Hombre", "Rubio"],
-        "imagen": "Charles.png",
-    },
-    "Peter": {
-        "nombre": "Peter",
-        "características": ["Pelo", "Ojos Azules", "Hombre", "Pelo Blanco"],
-        "imagen": "Peter.png",
-    },
-}
+from Quien_es_Quien.personaje_aleatorio import personajes
 
 
-def escoger_personaje(personajes):
-    personaje_oculto = random.choice(list(personajes.keys()))
-    return personaje_oculto
+# Estado del juego
+class GameState(rx.State):
+    question: str = ""
+    chat_history: list[tuple[str, str]] = []
+    selected_character: dict = random.choice(list(personajes.values()))
 
+    @rx.event
+    async def answer(self):
+        question = self.question.lower()
+        self.question = ""  # Limpiar el campo de entrada
 
-def tablero():
-    personajes_lista = list(personajes.values())
-    
-    filas = []
-    
-    for i in range(0, len(personajes_lista), 6):  
-        fila = rx.hstack(
-            [
-                rx.box(
-                    rx.image(src=personaje["imagen"], alt=personaje["nombre"], width="150px", height="150px"),  
-                    rx.text(personaje["nombre"], font_size="14px", color="black"),
-                    bg="LightGreen", 
-                    p="10px", 
-                    m="5px", 
-                    border_radius="8px", 
-                    text_align="center",
-                )
-                for personaje in personajes_lista[i:i + 6]  
-            ],
-            spacing="3", 
-        )
-        filas.append(fila)
-    
+        respuesta = "No entiendo la pregunta."
+        for característica in self.selected_character["características"]:
+            if característica.lower() in question:
+                respuesta = "Sí" if característica in self.selected_character["características"] else "No"
+                break
 
-    personaje_aleatorio = escoger_personaje(personajes)
-    personaje_oculto = personajes[personaje_aleatorio]
-    
-    return rx.center(
-        rx.vstack(
-            *filas, 
-            rx.text(f"El personaje elegido por la máquina es: {personaje_oculto['nombre']}", font_size="18px", color="blue"),
-            rx.image(src=personaje_oculto["imagen"], alt=personaje_oculto["nombre"], width="150px", height="150px"),
-            spacing="3",
+        if "es" in question:
+            respuesta = f"¡El personaje es {self.selected_character['nombre']}!" if self.selected_character[
+                "nombre"].lower() in question else "No, no es ese personaje."
+
+        self.chat_history.append((question, respuesta))
+
+# Función para crear un bloque de pregunta-respuesta
+def qa(question: str, answer: str) -> rx.Component:
+    return rx.vstack(
+        rx.box(
+            rx.text(question, style={"text-align": "right"}),
+            bg="LightGray",
+            padding="10px",
+            border_radius="8px",
+            margin_y="5px",
+        ),
+        rx.box(
+            rx.text(answer, style={"text-align": "left"}),
+            bg="LightGreen",
+            padding="10px",
+            border_radius="8px",
+            margin_y="5px",
+        ),
+        spacing="2",
+    )
+
+# Función para mostrar el historial del chat
+def chat() -> rx.Component:
+    return rx.box(
+        rx.foreach(
+            GameState.chat_history,
+            lambda msg: qa(msg[0], msg[1]),
         ),
         padding="20px",
     )
 
+# Barra de acción para ingresar preguntas
+def action_bar() -> rx.Component:
+    return rx.hstack(
+        rx.input(
+            value=GameState.question,
+            placeholder="Haz una pregunta sobre el personaje",
+            on_change=GameState.set_question,
+            style={"width": "350px", "padding": "10px", "border-radius": "8px"},
+        ),
+        rx.button(
+            "Preguntar",
+            on_click=GameState.answer,
+            style={"background-color": "LightBlue", "padding": "10px", "border-radius": "8px"},
+        ),
+        spacing="3",
+    )
 
-class Estado(rx.State):
-    def mostrar_mensaje(self, mensaje):
-        print(f"Has seleccionado a {mensaje}")  
+# Función para mostrar el tablero con los personajes
+def tablero() -> rx.Component:
+    personajes_lista = list(personajes.values())
 
+    filas = []
+    for i in range(0, len(personajes_lista), 6):
+        fila = rx.hstack(
+            [
+                rx.box(
+                    rx.image(
+                        src=personaje["imagen"],
+                        alt=personaje["nombre"],
+                        width="100px",
+                        height="100px",
+                    ),
+                    rx.text(personaje["nombre"], font_size="14px"),
+                    bg="LightGray",
+                    padding="10px",
+                    border_radius="8px",
+                    margin="5px",
+                    text_align="center",
+                )
+                for personaje in personajes_lista[i:i + 6]
+            ],
+            spacing="3",
+        )
+        filas.append(fila)
 
-app = rx.App(state=Estado)  
-app.add_page(tablero, route="/", title="Tablero ¿Quién es quién?")
+    return rx.center(
+        rx.vstack(*filas, spacing="3"),
+        padding="20px",
+    )
+
+# Página principal
+def index() -> rx.Component:
+    return rx.center(
+        rx.vstack(
+            rx.text("Adivina quién es el personaje", font_size="24px", color="black"),
+            tablero(),
+            chat(),
+            action_bar(),
+            align="center",
+        ),
+        padding="20px",
+    )
+
+# Inicialización de la aplicación
+app = rx.App()
+app.add_page(index, route="/", title="¿Quién es quién?")
 app._compile()
