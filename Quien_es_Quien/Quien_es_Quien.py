@@ -1,8 +1,6 @@
 import reflex as rx
 import random
 
-
-
 personajes = {
     "Susan": {
         "nombre": "Susan",
@@ -127,6 +125,9 @@ personajes = {
 }
 
 
+def escoger_personaje(personajes):
+    personaje_oculto = random.choice(list(personajes.keys()))
+    return personaje_oculto
 
 
 def tablero():
@@ -134,17 +135,16 @@ def tablero():
     
     filas = []
     
-    
-    for i in range(0, len(personajes_lista), 6):
+    for i in range(0, len(personajes_lista), 6):  
         fila = rx.hstack(
             [
                 rx.box(
                     rx.image(src=personaje["imagen"], alt=personaje["nombre"], width="150px", height="150px"),  
                     rx.text(personaje["nombre"], font_size="14px", color="black"),
-                    bg="LightGreen",
-                    p="10px",
-                    m="5px",
-                    border_radius="8px",
+                    bg="LightGreen", 
+                    p="10px", 
+                    m="5px", 
+                    border_radius="8px", 
                     text_align="center",
                 )
                 for personaje in personajes_lista[i:i + 6]  
@@ -152,13 +152,27 @@ def tablero():
             spacing="3", 
         )
         filas.append(fila)
+    
 
+    personaje_aleatorio = escoger_personaje(personajes)
+    personaje_oculto = personajes[personaje_aleatorio]
+    
     return rx.center(
-        rx.vstack(*filas, spacing="3"),  
+        rx.vstack(
+            *filas, 
+            rx.text(f"El personaje elegido por la máquina es: {personaje_oculto['nombre']}", font_size="18px", color="blue"),
+            rx.image(src=personaje_oculto["imagen"], alt=personaje_oculto["nombre"], width="150px", height="150px"),
+            spacing="3",
+        ),
         padding="20px",
     )
 
 
-app = rx.App()
+class Estado(rx.State):
+    def mostrar_mensaje(self, mensaje):
+        print(f"Has seleccionado a {mensaje}")  
+
+
+app = rx.App(state=Estado)  
 app.add_page(tablero, route="/", title="Tablero ¿Quién es quién?")
 app._compile()
