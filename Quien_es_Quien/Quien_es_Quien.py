@@ -11,19 +11,25 @@ class GameState(rx.State):
 
     @rx.event
     async def answer(self):
-        question = self.question.lower()
-        self.question = ""  
-
+        question = self.question.lower().strip()
+        self.question = ""  # Reseteamos el campo de pregunta
         respuesta = "No entiendo la pregunta."
-        for característica in self.selected_character["características"]:
-            if característica.lower() in question:
-                respuesta = "Sí" if característica in self.selected_character["características"] else "No"
-                break
 
-        if "es" in question:
-            respuesta = f"¡El personaje es {self.selected_character['nombre']}!" if self.selected_character[
-                "nombre"].lower() in question else "No, no es ese personaje."
+        # Preguntas sobre características
+        if any(caract.lower() in question for caract in self.selected_character["características"]):
+            for caract in self.selected_character["características"]:
+                if caract.lower() in question:
+                    respuesta = "Sí" if caract.lower() in map(str.lower, self.selected_character["características"]) else "No"
+                    break
 
+        # Preguntas sobre el nombre del personaje
+        elif "es" in question:
+            if self.selected_character["nombre"].lower() in question:
+                respuesta = f"¡Sí! El personaje es {self.selected_character['nombre']}."
+            else:
+                respuesta = "No, no es ese personaje."
+
+        # Agregar la pregunta y respuesta al historial
         self.chat_history.append((question, respuesta))
 
 
