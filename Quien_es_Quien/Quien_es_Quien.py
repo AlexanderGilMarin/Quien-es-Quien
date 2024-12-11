@@ -10,16 +10,30 @@ class GameState(rx.State):
     choices: dict[str, bool] = {
         k: False for k in personajes.keys()  
     }
+    game_started: bool = False  # New state variable
 
     def check_choice(self, value, character):
         self.choices[character] = value
+
+    @rx.event
+    async def start_game(self):
+        """Start the game."""
+        self.game_started = True
+        self.selected_character = random.choice(list(personajes.values()))
+        self.chat_history.clear()
+
+    @rx.event
+    async def new_game(self):
+        """Reset the game."""
+        self.game_started = False
+        self.chat_history.clear()
+        self.question = ""
 
     @rx.event
     async def answer(self):
         question = self.question.lower().strip()
         self.question = ""  
         respuesta = "No entiendo la pregunta."
-
         
         if "es" in question and any(word in question for word in ["el personaje"]):
             if self.selected_character["nombre"].lower() in question:
@@ -27,20 +41,16 @@ class GameState(rx.State):
             else:
                 respuesta = "No, no es ese personaje."
         
-       
         elif any(keyword in question for keyword in ["tiene", "lleva", "es"]):
             for caract in self.selected_character["características"]:
                 if caract.lower() in question:
                     respuesta = "Sí"
                     break
             else:
-                
                 respuesta = "No"
-
         
         else:
             respuesta = "No entiendo tu pregunta. Intenta preguntar por características o nombres."
-
         
         self.chat_history.append((question, respuesta))
 
@@ -48,6 +58,26 @@ class GameState(rx.State):
     async def clear_chat(self):
         """Limpia el historial del chat."""
         self.chat_history.clear()
+
+
+def start_screen() -> rx.Component:
+    return rx.center(
+        rx.vstack(
+            rx.heading("¿Quién es Quién?", font_size="2em"),
+            rx.button(
+                "Comenzar Juego",
+                on_click=GameState.start_game,
+                style={
+                    "background-color": "LightBlue",
+                    "padding": "20px",
+                    "border-radius": "8px",
+                    "font-size": "1.2em"
+                }
+            ),
+            spacing="8",
+            padding="100px",
+        )
+    )
 
 
 def qa(question: str, answer: str) -> rx.Component:
@@ -98,6 +128,11 @@ def action_bar() -> rx.Component:
             on_click=GameState.clear_chat,
             style={"background-color": "LightCoral", "padding": "10px", "border-radius": "8px"},
         ),
+        rx.button(
+            "Nuevo Juego",
+            on_click=GameState.new_game,
+            style={"background-color": "LightGreen", "padding": "10px", "border-radius": "8px"},
+        ),
         spacing="3",
     )
 
@@ -137,15 +172,29 @@ def tablero() -> rx.Component:
 
 
 def index() -> rx.Component:
-    return rx.center(
-        rx.vstack(
-            rx.text("Adivina quién es el personaje", font_size="24px", color="black"),
-            tablero(),
-            chat(),
-            action_bar(),
-            align="center",
+    return rx.cond(
+        GameState.game_started,
+        rx.center(
+            rx.vstack(
+                rx.text("Adivina quién es el personaje", font_size="24px", color="black"),
+                rx.hstack(
+                    rx.box(
+                        tablero(),
+                        width="70%",
+                    ),
+                    rx.box(
+                        chat(),
+                        action_bar(),
+                        width="30%",
+                    ),
+                    width="100%",
+                    spacing="4",
+                ),
+                align="center",
+            ),
+            padding="20px",
         ),
-        padding="20px",
+        start_screen(),
     )
 
 
