@@ -127,4 +127,3 @@ personajes = {
 def escoger_personaje(personajes):
     personaje_oculto = random.choice(list(personajes.keys()))
     return personaje_oculto
-print(escoger_personaje(personajes))
