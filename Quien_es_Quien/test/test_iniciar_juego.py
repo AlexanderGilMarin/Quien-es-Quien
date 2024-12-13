@@ -1,3 +1,6 @@
+import pytest
+import random
+
 personajes = {
     "Susan": {
         "nombre": "Susan",
@@ -120,3 +123,18 @@ personajes = {
         "imagen": "Peter.png",
     },
 }
+
+class EstadoJuego():
+    pregunta: str = ""
+    historial_chat: list[tuple[str, str]] = []
+    personaje_seleccionado: dict = random.choice(list(personajes.values()))
+    juego_iniciado: bool = False
+    juego_ganado: bool = False
+    personajes_eliminados: dict[str, bool] = {clave: False for clave in personajes.keys()}
+
+@pytest.fixture
+def estado():
+    return EstadoJuego()
+
+def test_iniciar_juego(estado):
+    assert estado.personaje_seleccionado is not None

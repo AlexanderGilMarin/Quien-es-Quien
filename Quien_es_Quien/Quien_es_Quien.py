@@ -17,7 +17,6 @@ class EstadoJuego(rx.State):
         self.pregunta = ""
         respuesta = "No entiendo la pregunta."
 
-        # Comprobación de si la pregunta es sobre el nombre del personaje
         if "es" in pregunta and "el personaje" in pregunta:
             nombre_personaje = self.personaje_seleccionado["nombre"].lower()
             if nombre_personaje in pregunta:
@@ -34,7 +33,7 @@ class EstadoJuego(rx.State):
         self.historial_chat.append((pregunta, respuesta))
 
     def _eliminar_personaje(self, pregunta):
-        nombre_personaje = pregunta.split("el personaje")[-1].strip()
+        nombre_personaje = pregunta("el personaje")[-1]
         if nombre_personaje in self.personajes_eliminados:
             self.personajes_eliminados[nombre_personaje] = True
 
@@ -42,7 +41,7 @@ class EstadoJuego(rx.State):
         respuesta = "No"
         tiene_caracteristica = False
         for caracteristica in self.personaje_seleccionado["características"]:
-            if caracteristica.lower() in pregunta:
+            if caracteristica in pregunta:
                 tiene_caracteristica = True
                 respuesta = "Sí"
                 self._eliminar_personajes_sin_caracteristica(pregunta)
@@ -53,12 +52,12 @@ class EstadoJuego(rx.State):
 
     def _eliminar_personajes_sin_caracteristica(self, pregunta):
         for nombre, personaje in personajes.items():
-            if not any(c.lower() in pregunta for c in personaje["características"]):
+            if not any(c in pregunta for c in personaje["características"]):
                 self.personajes_eliminados[nombre] = True
 
     def _eliminar_personajes_con_caracteristica(self, pregunta):
         for nombre, personaje in personajes.items():
-            if any(c.lower() in pregunta for c in personaje["características"]):
+            if any(c in pregunta for c in personaje["características"]):
                 self.personajes_eliminados[nombre] = True
 
     @rx.event
