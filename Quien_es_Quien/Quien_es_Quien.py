@@ -26,7 +26,6 @@ class EstadoJuego(rx.State):
                 respuesta = "No, no es ese personaje."
                 self._eliminar_personaje(pregunta)
 
-        # Comprobación de características del personaje
         elif any(palabra_clave in pregunta for palabra_clave in ["tiene", "lleva", "es"]):
             respuesta = self._manejar_pregunta_caracteristica(pregunta)
 
@@ -94,7 +93,7 @@ def pantalla_inicio() -> rx.Component:
     )
 
 
-def qa(pregunta: str, respuesta: str) -> rx.Component:
+def pr(pregunta: str, respuesta: str) -> rx.Component:
     return rx.vstack(
         rx.box(rx.text(pregunta, style={"text-align": "right"}), bg="LightCoral", padding="10px", border_radius="8px", margin_y="5px"),
         rx.box(rx.text(respuesta, style={"text-align": "left"}), bg="LightBlue", padding="10px", border_radius="8px", margin_y="5px"),
@@ -104,7 +103,7 @@ def qa(pregunta: str, respuesta: str) -> rx.Component:
 
 def chat() -> rx.Component:
     return rx.box(
-        rx.foreach(EstadoJuego.historial_chat, lambda msg: qa(msg[0], msg[1])),
+        rx.foreach(EstadoJuego.historial_chat, lambda msg: pr(msg[0], msg[1])),
         padding="20px", color="black"
     )
 
