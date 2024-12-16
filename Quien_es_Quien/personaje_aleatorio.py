@@ -8,7 +8,7 @@ personajes = {
     },
     "Claire": {
         "nombre": "Claire",
-        "características": ["Pelo", "Sombrero", "Ojos Marrones", "Gafas", "Mujer", "Pelo Naranja"],
+        "características": ["Pelo", "Sombrero", "Ojos Marrones", "Gafas", "Mujer", "Pelirrojo"],
         "imagen": "Claire.png",
     },
     "David": {
@@ -48,7 +48,7 @@ personajes = {
     },
     "Alfred": {
         "nombre": "Alfred",
-        "características": ["Pelo", "Ojos Azules", "Bigote", "Hombre", "Pelo Naranja"],
+        "características": ["Pelo", "Ojos Azules", "Bigote", "Hombre", "Pelirrojo"],
         "imagen": "Alfred.png",
     },
     "Max": {
@@ -88,7 +88,7 @@ personajes = {
     },
     "Frans": {
         "nombre": "Frans",
-        "características": ["Pelo", "Ojos Marrones", "Hombre", "Pelo Naranja"],
+        "características": ["Pelo", "Ojos Marrones", "Hombre", "Pelirrojo"],
         "imagen": "Frans.png",
     },
     "Herman": {
@@ -103,12 +103,12 @@ personajes = {
     },
     "Philip": {
         "nombre": "Philip",
-        "características": ["Pelo", "Ojos Marrones", "Coloretes", "Barba", "Hombre", "Pelo Marrón"],
+        "características": ["Pelo", "Ojos Marrones", "Coloretes", "Barba", "Hombre", "Marrón"],
         "imagen": "Philip.png",
     },
     "Eric": {
         "nombre": "Eric",
-        "características": ["Pelo", "Sombrero", "Ojos Marrones", "Hombre", "Pelo Rubio"],
+        "características": ["Pelo", "Sombrero", "Ojos Marrones", "Hombre", "Rubio"],
         "imagen": "Eric.png",
     },
     "Charles": {

@@ -17,6 +17,7 @@ class EstadoJuego(rx.State):
         self.pregunta = ""
         respuesta = "No entiendo la pregunta."
 
+        # Comprobación de si la pregunta es sobre el nombre del personaje
         if "es" in pregunta and "el personaje" in pregunta:
             nombre_personaje = self.personaje_seleccionado["nombre"].lower()
             if nombre_personaje in pregunta:
@@ -24,23 +25,18 @@ class EstadoJuego(rx.State):
                 self.juego_ganado = True
             else:
                 respuesta = "No, no es ese personaje."
-                self._eliminar_personaje(pregunta)
 
+        # Comprobación de características del personaje
         elif any(palabra_clave in pregunta for palabra_clave in ["tiene", "lleva", "es"]):
             respuesta = self._manejar_pregunta_caracteristica(pregunta)
 
         self.historial_chat.append((pregunta, respuesta))
 
-    def _eliminar_personaje(self, pregunta):
-        nombre_personaje = pregunta("el personaje")[-1]
-        if nombre_personaje in self.personajes_eliminados:
-            self.personajes_eliminados[nombre_personaje] = True
-
     def _manejar_pregunta_caracteristica(self, pregunta):
         respuesta = "No"
         tiene_caracteristica = False
         for caracteristica in self.personaje_seleccionado["características"]:
-            if caracteristica in pregunta:
+            if caracteristica.lower() in pregunta:
                 tiene_caracteristica = True
                 respuesta = "Sí"
                 self._eliminar_personajes_sin_caracteristica(pregunta)
@@ -51,12 +47,12 @@ class EstadoJuego(rx.State):
 
     def _eliminar_personajes_sin_caracteristica(self, pregunta):
         for nombre, personaje in personajes.items():
-            if not any(c in pregunta for c in personaje["características"]):
+            if not any(c.lower() in pregunta for c in personaje["características"]):
                 self.personajes_eliminados[nombre] = True
 
     def _eliminar_personajes_con_caracteristica(self, pregunta):
         for nombre, personaje in personajes.items():
-            if any(c in pregunta for c in personaje["características"]):
+            if any(c.lower() in pregunta for c in personaje["características"]):
                 self.personajes_eliminados[nombre] = True
 
     @rx.event
@@ -87,7 +83,7 @@ def pantalla_inicio() -> rx.Component:
     return rx.center(
         rx.vstack(
             rx.heading("¿Quién es Quién?", font_size="2em"),
-            rx.button("Comenzar Juego", on_click=EstadoJuego.iniciar_juego, style={"background-color": "LightBlue", "padding": "20px", "border-radius": "8px", "font-size": "1.2em"}),
+            rx.button("Comenzar Juego", on_click=EstadoJuego.iniciar_juego, style={"background-color": "LightBlue", "padding": "20px", "border-radius": "8px", "font-size": "1.2em", "color":"black"}),
             spacing="8", padding="100px",
         )
     )
