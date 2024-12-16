@@ -149,7 +149,7 @@ Como jugador, necesito que se seleccione un personaje aleatoriamente al iniciar 
 ![Wakatime 3](assets/alex%202.png)
 ![Wakatime 4](assets/edgar%202.png)
 nos faltan capturas y tuvimos algun problema con el wakatime porque no nos cogia el tiempo correcto y a veces no recogia el tiempo.
-Pero el tiempo rondara al rededor de 50 horas.
+Pero el tiempo rondara alrededor de 50 horas.
 
 # **Conclusiones**
 Nos gustaria implementar mas cosas, pero con el tiempo que tuvimos y el conocimiento fue hasta donde pudimos llegar.
@@ -158,3 +158,21 @@ Por lo general ha sido una experiencia nueva esto de programar un trabajo de est
 Hay muchas cosas por mejorar, como ya mencione es nuestro primer proyecto, deberiamos haber creado 2 ramas o mas, separar el backend y frontend, la organizacion nos costo al principio, miraremos al pasado y mejoraremos para el futuro.
 ## **Dificultades**
 Al principio tuvimos dificultades con la logica para responder las preguntas porque la logica que teniamos era un poco ambigua, ya que a veces preguntabas si era un personaje te lo tomaba como una caracteristica y viceversa, tambien tuvimos dificultades con el evento para que desaparecieran los personajes cuando no tenian la caracteristica preguntada.
+## **Rúbrica IA**
+¿Qué herramienta de IA generativa usaste (nombre y versión)?
+
+Chat GPT versión 4 y Reflex IA
+
+¿Qué tipos de prompts proporcionaste?
+
+Código: optimización de fragmentos de código.
+
+Corrección y mejora: Revisión de texto y código, así como sugerencias de mejora.
+
+¿Para qué usaste la herramienta?
+
+Para mejorar nuestro código para utilizar menos líneas de código o ayudarnos para cosas que no sabíamos como empezar ayudarnos a arrancar
+
+¿Cómo has utilizado o cambiado la salida de la IA generativa?
+
+Hemos cambiado las salidas de las IA ajustándolas a nuestro código, entendiéndolas y bajandolas a un nivel que supiesemos explicar, replicar sin su ayuda y entender como funcionan
